@@ -55,7 +55,7 @@ def front_page():
 ```
 Although that's not much of a shop, it *does* contain the word "shop" so it should pass `test_example`!
 
-Let's try running the test script. Open a separate terminal (as the server launched by `flask run` above must be running still, in order to be tested). Then run the tests with:
+Let's try running the test script. Open a new terminal, as we will need the server launched above to keep running still. `cd` to the project directory and activate the virtual environment. Then run the tests with:
 ```
 python -m pytest
 ```
