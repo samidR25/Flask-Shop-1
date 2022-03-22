@@ -13,49 +13,40 @@ def get_prices_names(py):
         items.append((price,name))
     return items
         
-def register_and_login(py):
+def register_and_login(py,results={}):
     '''Test registration
-    Test failed login
+    Test failed login 
     Test correct login
-    Return the three test results and stay logged in'''
+    Save the results in results dict (if passed in)'''
+    
     # Register a new account
-    can_register = True
-    try:
-        py.visit(local_url).get("#register").click()
-        test_username = "pylenium"+''.join(random.choices(string.ascii_letters + string.digits, k=10))
-        test_password = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-        print (f"Testing registration for {test_username}:{test_password}")
-        py.get("#username_new").get("input").type(test_username)
-        py.get("#password_new").get("input").type(test_password)
-        py.get("#password_confirm").get("input").type(test_password)
-        py.get('input[type="submit"]').click()
-    except Exception as e:
-        can_register = False
-        print(e)
+    py.visit(local_url).get("#register").click()
+    test_username = "pylenium"+''.join(random.choices(string.ascii_letters + string.digits, k=10))
+    test_password = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+    print (f"Testing registration for {test_username}:{test_password}")
+    py.get("#username_new").type(test_username)
+    py.get("#password_new").type(test_password)
+    py.get("#password_confirm").type(test_password)
+    py.get('input[type="submit"]').click()
+    results["Can register"] = True
     
     # Try login with incorrect details
     test_username2 = "pylenium"+''.join(random.choices(string.ascii_letters + string.digits, k=10))
     test_password2 = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-    print ("Testing login")
+    print ("Testing bad login {test_username2}:{test_password2}")
     py.visit(local_url).get("#login").click()
-    py.get("#username").get("input").type(test_username2)
-    py.get("#password").get("input").type(test_password2)
+    py.get("#username").type(test_username2)
+    py.get("#password").type(test_password2)
     py.get('input[type="submit"]').click()
-    can_fail_login = bool(py.get(".login_error").text())
+    results["Login error correctly shown"] = bool(py.get(".login_error").text())
     
     # Login with correct details
-    can_login = True
-    try:
-        print ("Testing login")
-        py.visit(local_url).get("#login").click()
-        py.get("#username").get("input").type(test_username)
-        py.get("#password").get("input").type(test_password)
-        py.get('input[type="submit"]').click()
-    except Exception as e:
-        can_login = False
-        print(e)
-    
-    return can_register,can_login,can_fail_login
+    print (f"Testing login for {test_username}:{test_password}")
+    py.visit(local_url).get("#login").click()
+    py.get("#username").type(test_username)
+    py.get("#password").type(test_password)
+    py.get('input[type="submit"]').click()
+    results["Can login"] = True
     
 def add_to_cart(py,my_shoplist):
     '''Add items with indices specified in my_shoplist to cart,
@@ -151,10 +142,7 @@ def test_system(py):
     sort_success &= price_high_list==price_low_list
     results["Items sort correctly"] = sort_success 
     
-    can_register,can_login,login_error_correctly_shown = register_and_login(py)
-    results["Can register"] = can_register
-    results["Can login"] = can_login
-    results["Login error correctly shown"] = login_error_correctly_shown
+    register_and_login(py,results)
     items_in_cart = add_to_cart(py,[0,2])
     py.screenshot("test_results/gallery_items_added.png")
     total_price_correct, all_items_present, remove_works = check_cart(py,items_in_cart)
