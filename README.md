@@ -114,3 +114,5 @@ Before the test failed, however, the script took a screen grab of the main page 
 At this point you should focus your attention on implementing your coursework website in `shop`, as this system test should pass if you exactly follow the specification in the coursework brief. However, after each stage of development, you may like to run the tests again to see how your work is performing against them.
 
 When you eventually get `system_test` test to pass, your code will qualify for 60% of your coursework marks. Happy coding! :-)
+
+
