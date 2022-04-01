@@ -4,12 +4,13 @@ from collections import OrderedDict
 local_url = "http://localhost:5000"
 
 def get_prices_names(py):
-    '''Get list of [(price1,name1),(price2,name2),...] from the current page'''
+    '''Get list of [(price1,name1),(price2,name2),...] from the current page
+    Prices returns as integer number of pence'''
     gallery_items = py.find(".gallery_item")
     items = []
     for item in gallery_items:
         name = item.get(".item_name").text()
-        price = float(item.get(".item_price").text())
+        price = round(100*float(item.get(".item_price").text()))
         items.append((price,name))
     return items
         
@@ -66,8 +67,8 @@ def check_cart(py,my_items):
     Return all three test results'''
     py.get("#show_cart").click()
     my_total_price = sum([p for p,n in my_items])
-    print (f"Checking total comes to {my_total_price} as I expected")
-    total_price = float(py.get("#total_price").text())
+    print (f"Checking total comes to {my_total_price}p as I expected")
+    total_price = round(100*float(py.get("#total_price").text()))
     total_price_correct = total_price==my_total_price
     
     all_items_present = True
@@ -77,9 +78,9 @@ def check_cart(py,my_items):
     
     if len(my_items)>1:
         item_to_remove = 0
-        price_to_deduct = float(py.find(".item_price")[0].text())
+        price_to_deduct = round(100*float(py.find(".item_price")[0].text()))
         py.find(".remove")[0].click()
-        new_price = float(py.get("#total_price").text())
+        new_price = round(100*float(py.get("#total_price").text()))
         remove_works = (new_price == total_price-price_to_deduct)
     else:
         remove_works = None # don't test removal if cart only has one item
@@ -192,6 +193,8 @@ def test_system(py):
     for k,v in results.items():
         print (f"{k}: {v}")
         
+    del results["Tips work"] # you don't need this to pass now, it's extra credit
+    
     assert all(results.values())
 
 
