@@ -10,6 +10,7 @@
     "experimental_options": null,
     "extension_paths": [],
     "webdriver_kwargs": {},
+    "seleniumwire_options": {},
     "local_path": ""
   },
   "logging": {
@@ -20,5 +21,7 @@
     "width": 1440,
     "height": 900,
     "orientation": "portrait"
-  }
+  },
+
+  "customer": {}
 }
