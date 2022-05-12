@@ -34,7 +34,7 @@ def register_and_login(py,results={}):
     # Try login with incorrect details
     test_username2 = "pylenium"+''.join(random.choices(string.ascii_letters + string.digits, k=10))
     test_password2 = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-    print ("Testing bad login {test_username2}:{test_password2}")
+    print (f"Testing bad login {test_username2}:{test_password2}")
     py.visit(local_url).get("#login").click()
     py.get("#username").type(test_username2)
     py.get("#password").type(test_password2)
@@ -56,7 +56,9 @@ def add_to_cart(py,my_shoplist):
     items = get_prices_names(py)
     my_items = []
     for item_no in my_shoplist:
-        py.find(".gallery_item")[item_no].get(".add_to_cart").click()
+        items_on_page = py.find(".gallery_item")
+        print(f"{len(items_on_page)} items found on page, trying to add item {item_no}")
+        items_on_page[item_no].get(".add_to_cart").click()
         my_items.append(items[item_no])
     return my_items
     
@@ -91,13 +93,18 @@ def num_displayed_tips(py):
     '''Return number of elements of class 'tip' that are currently displayed'''
     return len([1 for tip in py.find(".tip") if tip.is_displayed()])
     
+class ResultsDict(OrderedDict):
+    def __setitem__(self,key,value):
+        print(f"RESULT: {key}: {value}")
+        super().__setitem__(key,value)
+    
 def test_system(py):
     '''A single system level test for the whole website.
     Ordinarily we would use the pytest framework to write multiple unit tests.
     For the purpose of efficiently assissing coursework, our needs are different:
     This *one* test function will check *multiple* behaviours of the site
     and store the results in 'results' for marking'''
-    results = OrderedDict()
+    results = ResultsDict()
     
     py.viewport(1800,1200)
     
@@ -169,7 +176,8 @@ def test_system(py):
     initially_no_tips = (num_displayed_tips(py)==0)
     py.get("#name").click()
     tip_appears = (num_displayed_tips(py)==1)
-    results["Tips work"] = initially_no_tips and tip_appears
+    tips_work_key = "Tips work (*this is now optional*)"
+    results[tips_work_key] = initially_no_tips and tip_appears
     
     print ("Checking form does not successfully submit if bad card number entered")
     py.get("#name").type("test name")
@@ -189,11 +197,11 @@ def test_system(py):
     # Display contents of 'results' and assert all are true
     # (When your coursework is marked, the contents of 'results' is transferred to the marking sheet)
     print()
-    print("Test results:")
+    print("All test results:")
     for k,v in results.items():
         print (f"{k}: {v}")
         
-    del results["Tips work"] # you don't need this to pass now, it's extra credit
+    del results[tips_work_key] # you don't need this to pass now, it's extra credit
     
     assert all(results.values())
 
