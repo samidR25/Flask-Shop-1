@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block title %}
+  More Information
+{% endblock %}
+{% block content %}
+<h1>More information about {{ item.name }} below!</h1>
+      <table class="table-style">
+        <thead>
+            <tr>
+                <!-- Your Columns HERE -->
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Description</th>
+                <th scope="col">Eco-impact</th>
+                <th scope="col">View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Your rows inside the table HERE: -->
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>£{{ item.price }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.eco }} Co2</td>
+                    <td><img src="{{ url_for('static', filename='img/' + item.imagefile)}}" class ="table-img" ></td>
+                </tr>
+        </tbody>
+    </table>
+{% endblock %}

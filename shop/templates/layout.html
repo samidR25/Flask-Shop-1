@@ -8,15 +8,48 @@ filename='style.css') }}">
 </head>
 
 <body>
-<div id="header">
-<a href="{{ url_for('home') }}" class="header">Home</a>&nbsp
-<a href="{{ url_for('about') }}" class="header">About Me</a>
+
+
+<div class="heading1">
+  <div class="container">
+
+<div class="navbar">
+<div class="logo">
+<img src="http://pngimagesfree.com/Football/football_player_png_image.png" id="football" >
+</div>
+<nav>
+  <ul>
+    <li><a href="{{ url_for('home') }}" class="header">Home</a>&nbsp</li>
+    <li><a href="{{ url_for('register') }}" class="header">Register</a></li>
+    <li><a href="{{ url_for('login') }}" class="header">Login</a></li>
+    <li><a href="{{ url_for('logout') }}" class="header">Logout</a></li>
+    <li><a href="{{ url_for('show_cart') }}" class="header">Cart</a></li>
+  </ul>
+</nav>
+</div>
+</div>
 </div>
 
-<div id="content">
+<div class="heading">
+</div>
+<div >
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+</div>
+
+
+
 {% block content %}
 {% endblock %}
-</div>
+
+
 
 </body>
 

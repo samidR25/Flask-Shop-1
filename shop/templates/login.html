@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block title %}
+  Registration page
+{% endblock %}
+
+{% block content %}
+<h1>LOGIN BELOW</h1>
+<br>
+<form class="regForm" method="POST" action="">
+  {{ form.hidden_tag() }}
+ {{form.username.label}}
+ {{ form.username(class= "reg",placeholder="User Name", id ="username" ) }}
+
+ {{form.password.label}}
+ {{ form.password(class= "reg", placeholder="Password", id="password" ) }}
+<br>
+ {{ form.submit(class="button")}}
+</form>
+{% endblock %}

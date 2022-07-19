@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block title %}
+  Registration page
+{% endblock %}
+
+{% block content %}
+<h1>CHECKOUT BELOW</h1>
+<br>
+<form class="checkout_form" method="POST" action="">
+  {{ form.hidden_tag() }}
+  <div class="name" id="name">
+    {{form.name.label}}
+    {{ form.name(class= "reg",placeholder="Full Name" ) }}
+  </div>
+
+<div class="address" id="address">
+  {{form.address.label}}
+  {{ form.address(class= "reg", placeholder="Full address" ) }}
+</div>
+
+ <div class="card_no" id="card_no">
+   {{form.card_no.label}}
+   {{ form.card_no(class= "reg", placeholder="16 digit card no" ) }}
+ </div>
+
+<br>
+ {{ form.submit(class="button")}}
+</form>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+<!-- IDEA:  -->

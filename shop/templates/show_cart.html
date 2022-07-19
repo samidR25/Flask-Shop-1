@@ -1,0 +1,28 @@
+{%extends "layout.html"%}
+{%block content%}
+
+<table class="gallery_item">
+  <thead>
+    {% for key, value in cart.items() %}
+    <tr>
+      <td>{{ value["name"] }}</td>
+      <td>{{ value["quantity"] }}</td>
+      <td class="item_price">£{{ value["price"] }}</td>
+      <td>£{{ (value["quantity"] * value["price"]) }}</td>
+      <td>
+        <form action="{{ url_for('delete', item_id=key|int) }}" method="POST">
+          <input class="remove" type="submit" value="remove item from cart">
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <h3 class="total_price">Total: £{{ total }} </h3>
+  <h3>Number of items: {{ total_quantity }} </h3>
+
+  {% if current_user.is_authenticated %}
+  <a href = "{{ url_for('checkout') }}">
+      <button id="checkout">Checkout &#10145;</button>
+  </a>
+  {% endif %}
+  {% endblock content %}

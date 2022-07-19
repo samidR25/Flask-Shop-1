@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block title %}
+  Registration page
+{% endblock %}
+
+{% block content %}
+<h1>REGISTER BELOW</h1>
+<br>
+<form class="regForm" method="POST" action="">
+  {{ form.hidden_tag() }}
+  <div class="username_new" id="new">
+    {{form.username.label}}
+    {{ form.username(class= "reg",placeholder="User Name" ) }}
+  </div>
+
+<div class="email_new" id="email_new">
+  {{form.email.label}}
+  {{ form.email(class= "reg", placeholder="abc@123.co.uk" ) }}
+</div>
+
+<div class="password_new" id="password_new">
+  {{form.password.label}}
+  {{ form.password(class= "reg", placeholder="Password" ) }}
+</div>
+
+<br>
+ {{ form.submit(class="button")}}
+</form>
+{% endblock %}
+
+
+
+
+
+
+
+<!-- IDEA:  -->
